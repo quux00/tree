@@ -8,7 +8,7 @@ import java.util.Set;
 public class TreeCmdLineParser {
 
 	EnumSet<TreeCmdOptions> options;
-	String startDir;
+	String startDir = ".";  // default is curr dir
 	
 	public void showHelp() {
 		PrintStream out = System.out;
@@ -45,16 +45,19 @@ public class TreeCmdLineParser {
 				throw new IllegalArgumentException("Command line option " + args[i] + " not recognized.");
 			}
 		}
+		if (optSet.size() == 0) {
+			options = EnumSet.noneOf(TreeCmdOptions.class);
+		} else {
+			options = EnumSet.copyOf(optSet);
+		}
 	}
 
 	public String getStartDirectory() {
-		// TODO: update me
-		return ".";
+		return startDir;
 	}
 
 	public EnumSet<TreeCmdOptions> getOptions() {
-		// TODO Auto-generated method stub
-		return null;
+		return options;
 	}
 
 }
