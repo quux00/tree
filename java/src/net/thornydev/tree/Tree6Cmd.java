@@ -1,7 +1,9 @@
 package net.thornydev.tree;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.EnumSet;
 
@@ -9,6 +11,7 @@ public class Tree6Cmd {
 
 	private final PathPrinter out;
 	private final EnumSet<TreeCmdOptions> options;
+	private final FileFilter filter;
 
 	private int nfiles = 0;
 	private int ndirs  = 0;
@@ -17,7 +20,17 @@ public class Tree6Cmd {
 		this.options = options;
 		out = new PathPrinter(!options.contains(TreeCmdOptions.NO_INDENTATION));
 
-		// TODO: need to set up filter
+		filter = new FileFilter() {
+	         public boolean accept(File file) {
+	        	 if (options.contains(TreeCmdOptions.DIRS_ONLY) && !file.isDirectory()) {
+	        		 return false;
+	        	 }
+	        	 if (!options.contains(TreeCmdOptions.ALL_FILES)) {
+	        		 return !(file.getName().startsWith("."));
+	             }
+	        	 return true;
+	         }
+	     };
 	}
 
 	/**
@@ -81,7 +94,7 @@ public class Tree6Cmd {
 
 
 	private File[] getEntriesInPath(File path) throws Exception {
-		File[] paths = path.listFiles();
+		File[] paths = path.listFiles(filter);
 		Arrays.sort(paths);
 		return paths;
 	}
