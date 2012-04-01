@@ -1,7 +1,6 @@
-package net.thornydev;
+package net.thornydev.tree;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,50 +18,6 @@ public class Tree7Cmd {
 
 	private int nfiles = 0;
 	private int ndirs  = 0;
-	
-	public static class PathPrinter {
-		public static final String SYMBOL = "|-- "; 
-		private PrintStream out = System.out;
-		private boolean showIndentation;
-		
-		public PathPrinter(boolean showIndentation) {
-			this.showIndentation = showIndentation;
-		}
-		
-		/**
-		 * Prints the Path with the symbol in front and the
-		 * specified number of spaces, followed by the path
-		 * @param path
-		 */
-		public void p(Object path, String spaces) {
-			if (showIndentation) {
-				if (!spaces.equals("")) {
-					out.print("|");
-					out.print(spaces.substring(1));
-				}
-				out.print(SYMBOL);
-			}
-			out.println(path.toString());
-		}
-		
-		// regular pass through to System.out.println
-		public void println(Object o) {
-			out.println(o);
-		}
-		
-		// regular pass through to System.out.println
-		public void println() {
-			out.println();
-		}
-		
-		// regular pass through to System.out.printf		
-		public void printf(String format, Object... args) {
-			out.printf(format, args);
-		}
-	}
-	
-	
-	/* ---[ Tree7Cmd class ]--- */
 	
 	public Tree7Cmd(final EnumSet<TreeCmdOptions> options) {
 		this.options = options;
@@ -102,7 +57,7 @@ public class Tree7Cmd {
 		out.printf("%n%d %s", ndirs, (ndirs == 1 ? "directory" : "directories"));
 		
 		if (!options.contains(TreeCmdOptions.DIRS_ONLY)) {
-			out.printf("%d %s", nfiles, (nfiles == 1 ? "file" : "files"));
+			out.printf(", %d %s", nfiles, (nfiles == 1 ? "file" : "files"));
 		}
 		out.println();
 	}

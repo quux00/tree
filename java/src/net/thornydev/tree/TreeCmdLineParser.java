@@ -1,4 +1,4 @@
-package net.thornydev;
+package net.thornydev.tree;
 
 import java.io.PrintStream;
 import java.util.EnumSet;
