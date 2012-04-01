@@ -51,7 +51,6 @@ public class Tree7Cmd {
 	}
 
 	
-
 	// prints the "N directories, M files" note
 	private void printSummary() {
 		out.printf("%n%d %s", ndirs, (ndirs == 1 ? "directory" : "directories"));
@@ -103,7 +102,6 @@ public class Tree7Cmd {
 	private void printTopDirName(String dirname) {
 		out.println(dirname);
 	}
-
 
 	private Path checkIsDir(String dirname) {
 		try {
