@@ -1,9 +1,22 @@
 #!/usr/bin/env ruby
 
+# 
+# Simple implementation of the Unix tree command
+# in Ruby. This version takes only one cmd-line
+# arg - the directory to display, which is optional
+# as it defaults to the current directory.
+# 
+# The only switch it currently takes is -h or
+# --help, so it is no where near as full featured
+# as the C-version for Unix/Linux.
+#
+# Author: Michael Peterson
+# Date: April 2012
+# 
 class Tree
 
   def initialize
-   @nfiles = @ndirs = 0
+    @nfiles = @ndirs = 0
   end
 
   def display(dirname)
@@ -72,7 +85,20 @@ rescue => ex
   puts "[error]: #{ex}"
 end
 
+def help
+  puts "Displays contents of DIR and all subdirs in tree form"
+  puts "USAGE:"
+  puts "tree.rb [OPTIONS] [DIR]"
+  puts "  DIR is optional - defaults to current directory"
+  puts "  -h, --help:  show this help"
+end
 
 if __FILE__ == $0
+  ARGV.each do |arg|
+    if arg == '-h' || arg == '--help'
+      help
+      exit
+    end
+  end
   main(ARGV.first || '.')
 end

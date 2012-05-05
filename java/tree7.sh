@@ -1,3 +1,4 @@
 #!/bin/sh
 
-java -cp classes net/thornydev/tree/Tree7Cmd "$@"
+# modify this as appropriate on your system
+java -cp dist/tree.jar net/thornydev/tree/Tree7Cmd "$@"

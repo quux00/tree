@@ -1,0 +1,76 @@
+<project name="tree" default="compile6" basedir=".">
+  <!-- Template based on: http://sourceforge.net/apps/mediawiki/import-ant/index.php?title=Snippets  -->
+  <description>Build TreeCmd class</description>
+
+  <!-- load environment variables as properties -->
+  <property environment="env"/>
+
+  <!-- default folder location properties -->
+  <property name="src.dir" value="src"/>
+  <property name="build.dir" value="build"/>
+  <property name="dist.dir" value="dist"/>
+
+  <!-- project classpath -->
+
+  <path id="project.classpath">
+    <!-- compiled classes -->
+    <pathelement location="${build.dir}" />
+  </path>
+
+  <!-- basic -->
+
+  <target name="init">
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${dist.dir}"/>
+  </target>
+
+  <target name="clean"
+          description="Delete temporary folders">
+    <delete dir="${build.dir}" failonerror="false" deleteonexit="true" />
+    <delete dir="${dist.dir}" failonerror="false" deleteonexit="true" />
+  </target>
+
+  <!-- compile -->
+
+  <target name="prepare-resources" depends="init">
+    <!-- description="Prepare application resource files" -->
+    <copy todir="${build.dir}" overwrite="true">
+      <fileset dir="${src.dir}" includes="**/*.properties,**/*.xml" excludes="" />
+    </copy>
+  </target>
+
+  <property name="compile.debug" value="true" />
+  <property name="compile.debuglevel" value="lines,vars,source" />
+
+  <target name="compile6" depends="init,prepare-resources" description="Compile Tree for Java6">
+    <javac
+        srcdir="${src.dir}"
+        destdir="${build.dir}"
+        excludes="net/thornydev/tree/Tree7Cmd.java"
+        debug="${compile.debug}"
+        debuglevel="${compile.debuglevel}"
+        includeantruntime="false"> <!-- to overcome misfeature in Ant 1.8 -->
+      <compilerarg line="-Xlint:unchecked" /> <!-- "-Xlint:all", "-Xlint:all,-path", "-Xlint:all,-path,-unchecked" -->
+      <classpath refid="project.classpath" />
+    </javac>
+  </target>
+  
+  <target name="compile7" depends="init,prepare-resources" description="Compile Tree for Java7">
+    <!-- description="Compile source code" -->
+    <javac
+        srcdir="${src.dir}"
+        destdir="${build.dir}"
+        excludes="net/thornydev/tree/Tree6Cmd.java"
+        debug="${compile.debug}"
+        debuglevel="${compile.debuglevel}"
+        includeantruntime="false"> <!-- to overcome misfeature in Ant 1.8 -->
+      <compilerarg line="-Xlint:unchecked" /> <!-- "-Xlint:all", "-Xlint:all,-path", "-Xlint:all,-path,-unchecked" -->
+      <classpath refid="project.classpath" />
+    </javac>
+  </target>
+
+  <target name="jar" depends="init" description="Create jar file">
+    <jar destfile="${dist.dir}/tree.jar" basedir="${build.dir}"/>
+  </target>
+  
+</project>
